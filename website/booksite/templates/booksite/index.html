@@ -6,6 +6,25 @@
     <title>Home page</title>
 </head>
 <body>
-    
+
+    {% if messages %}
+      {% for message in messages %}
+        {{message}}<br>
+      {% endfor %}
+    {% endif %}
+
+    {% block nav %}
+      <nav>
+          <a href="{% url 'home' %}">Home</a>
+          <a href="{% url 'create' %}">Book a Slot</a>
+          <a href="">Contact</a>
+          <a href="">Logout</a>
+      </nav>
+    {% endblock nav %}
+
+    {% block content %}
+        <p>Hello! Welcome to the Game hub! You can book a slot through the "Book A Slot" Link</p>
+        <p>This is gonna be a page that explains about the website or basically the homepage of the website</p>
+    {% endblock content %}
 </body>
 </html>
