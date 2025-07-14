@@ -1,14 +1,18 @@
 from django.shortcuts import render, HttpResponse
-from django.views.generic.edit import CreateView
-from .models import Booking, DailyLimit
-from .forms import BookingModelForm
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import ListView
+from .models import Booking, DailyLimit, Profile
+from .forms import BookingModelForm, ProfileModelForm
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def home(request):
     return render(request, "booksite/index.html")
 
-class BookingCreate(CreateView):
+class BookingCreate(LoginRequiredMixin ,CreateView):
     model = Booking
     form_class = BookingModelForm
     template_name = "booksite/booking.html"
@@ -44,7 +48,52 @@ class BookingCreate(CreateView):
         messages.success(self.request, "Slot Booked Successfully!")
         return super().form_valid(form)
 
-    # make the logic such that no two same slot exists
-    # logic for the time field
-    # say we have two slots with s_time1, e_time1 and s_time2, e_time2.
-    # a slot should only be booked if s_time1 is either great or less than e_time2 where the e_time1 should be either great or less than s_time2
+# Code for User Dashboard starts from here....
+
+class UserDashboard(LoginRequiredMixin, ListView):
+    template_name = "booksite/dashboard.html"
+    context_object_name = "profile"
+
+    def get_queryset(self):
+        obj  = Profile.objects.filter(user=self.request.user).first()
+        return obj
+
+class UserDashboardCreate(LoginRequiredMixin, CreateView):
+    model = Profile
+    form_class = ProfileModelForm
+    template_name = "booksite/dashboard_create.html"
+    success_url = reverse_lazy('dashboard')
+
+    def form_valid(self, form):
+        profile = form.save(commit=False)
+        profile.user = self.request.user
+        profile.save()
+        messages.success(self.request, "Profile created successfully!")
+        return super().form_valid(form)
+
+class UserDashboardDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Profile
+    template_name = "booksite/dashboard_delete.html"
+    success_url = reverse_lazy('dashboard')
+    
+    def post(self, request, *args, **kwargs):
+        messages.success(self.request, "Profile deleted successfully!")
+        return super().post(self.request)
+
+    def test_func(self):
+        obj = Profile.objects.filter(pk=self.kwargs['pk']).first()
+        return obj.user == self.request.user
+
+class UserDashboardUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Profile
+    template_name = "booksite/dashboard_update.html"
+    form_class = ProfileModelForm
+    success_url = reverse_lazy('dashboard')
+    
+    def post(self, request, *args, **kwargs):
+        messages.success(self.request, "Profile updated successfully!")
+        return super().post(self.request)
+
+    def test_func(self):
+        obj = Profile.objects.filter(pk=self.kwargs['pk']).first()
+        return obj.user == self.request.user

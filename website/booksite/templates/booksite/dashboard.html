@@ -1,0 +1,14 @@
+{% extends 'booksite/index.html' %}
+
+{% block content %}
+  {% if profile %}
+    <img src="{{profile.pfp.url}}" alt="profile picture"><br>
+    {{profile.username}}<br>
+    {{profile.age }}<br>
+    {{profile.bio}}<br>
+    <br>
+    <p><a href="{% url 'dashboard_delete' profile.id %}">Delete the dashboard</a> <a href="{% url 'dashboard_update' profile.id %}">Update the dashboard</a></p>
+  {% else %}
+    <p>It seems you dont have your user details filled yet.. <a href="{% url 'dashboard_create' %}">Create Profile</a></p>
+  {% endif %}
+{% endblock content %}

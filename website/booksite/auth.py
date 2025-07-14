@@ -1,5 +1,8 @@
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.models import User
+from django.contrib.messages.context_processors import messages
+from django.contrib import messages
+
 from .forms import SignUpForm
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
@@ -20,4 +23,15 @@ class SignUpView(CreateView):
 class LoginClassView(LoginView):
     template_name = "booksite/login.html"
     redirect_authenticated_user = True
-    success_url = reverse_lazy('home')
+    next_page = reverse_lazy('home')
+    
+    def post(self, request, *args, **kwargs):
+        messages.success(self.request, "Account logged in successfully")
+        return super().post(self.request)
+
+class LogoutClassView(LogoutView):
+    next_page = reverse_lazy('login')
+    
+    def post(self, request, *args, **kwargs):
+        messages.success(self.request, "Account logged out successfully!")
+        return super().post(self.request, *args, **kwargs)

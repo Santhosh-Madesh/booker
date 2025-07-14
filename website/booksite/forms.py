@@ -1,5 +1,5 @@
 from django import forms
-from .models import Booking
+from .models import Booking, Profile
 from django.contrib.auth.models import User
 
 
@@ -28,3 +28,14 @@ class SignUpForm(forms.ModelForm):
             'email':forms.EmailInput(),
             'password':forms.PasswordInput(),
         }
+
+class ProfileModelForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ['user']
+        widgets = {
+            "pfp":forms.FileInput(),
+            "age":forms.NumberInput(),
+            "bio":forms.Textarea(),
+        }
+

@@ -14,4 +14,10 @@ class DailyLimit(models.Model):
     limit = models.PositiveIntegerField(default=10)
     counter = models.PositiveIntegerField(default=1)
 
-# Change of plans. I have now made it such that there is no slot model but i am integrating that model's functionality along with the booking model
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    pfp = models.FileField(default='default.jpg', upload_to='profile_pics')
+    username = models.CharField(max_length=100)
+    age = models.PositiveSmallIntegerField(blank=True, null=True)
+    bio = models.CharField(max_length=500, blank=True, null=True)
+    # later work on gender choice field
