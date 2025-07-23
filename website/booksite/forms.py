@@ -1,4 +1,8 @@
+from tokenize import Number
+
 from django import forms
+from django.forms import NumberInput
+
 from .models import Booking, Profile
 from django.contrib.auth.models import User
 
@@ -13,10 +17,10 @@ class TimeInput(forms.TimeInput):
 class BookingModelForm(forms.ModelForm):
     class Meta:
         model = Booking
-        exclude = ['user', 'status']
+        exclude = ['user', 'status', 'duration']
         widgets = {
-            'start_time':TimeInput(),
-            'end_time':TimeInput(),
+            'start_time':NumberInput(),
+            'end_time':NumberInput(),
             'date':DateInput(),
         }
 
@@ -39,3 +43,5 @@ class ProfileModelForm(forms.ModelForm):
             "bio":forms.Textarea(),
         }
 
+class BookDateForm(forms.Form):
+    date = forms.DateField(widget=DateInput())

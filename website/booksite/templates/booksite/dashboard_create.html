@@ -1,9 +1,70 @@
 {% extends 'booksite/index.html' %}
 
 {% block content %}
+<style>
+  .form-theme-wrapper {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f5e7c6; /* caramel beige */
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .form-theme-wrapper h2 {
+    font-size: 24px;
+    text-align: center;
+    color: #3e2b23; /* dark brown */
+    margin-bottom: 25px;
+  }
+
+  .form-theme-wrapper label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #4a3d33;
+  }
+
+  .form-theme-wrapper input[type="text"],
+  .form-theme-wrapper input[type="email"],
+  .form-theme-wrapper input[type="file"],
+  .form-theme-wrapper textarea,
+  .form-theme-wrapper select {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 18px;
+    border: 2px solid #dac9a6;
+    border-radius: 10px;
+    background-color: #fffdf7;
+    font-size: 14px;
+    color: #3a3a3a;
+  }
+
+  .form-theme-wrapper input[type="submit"] {
+    background-color: #7a9c7a; /* sage green */
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .form-theme-wrapper input[type="submit"]:hover {
+    background-color: #658065;
+  }
+</style>
+
+<div class="form-theme-wrapper">
+  <h2>Update Your Profile</h2>
   <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{form}}
-      <input type="submit" value="Update Profile">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update Profile">
   </form>
+</div>
 {% endblock content %}

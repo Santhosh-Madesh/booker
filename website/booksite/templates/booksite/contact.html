@@ -1,0 +1,60 @@
+{% extends 'booksite/index.html' %}
+
+{% block content %}
+<style>
+  .contact-wrapper {
+    max-width: 700px;
+    margin: 80px auto;
+    padding: 40px;
+    background-color: #2c1e1e; /* Card background */
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.12);
+    color: #fdf5e6;
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+  }
+
+  .contact-wrapper h2 {
+    color: #ffd700;
+    margin-bottom: 20px;
+    font-size: 30px;
+  }
+
+  .contact-wrapper p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: #e4d7c5;
+    margin-bottom: 15px;
+  }
+
+  .contact-wrapper .email-link {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 18px;
+    color: #ffd700;
+    background-color: #330000;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .contact-wrapper .email-link:hover {
+    background-color: #a40e26;
+    color: #fdf5e6;
+  }
+
+  .contact-wrapper .icon {
+    font-size: 40px;
+    color: #ffd700;
+    margin-bottom: 15px;
+  }
+</style>
+
+<div class="contact-wrapper">
+  <div class="icon">📧</div>
+  <h2>Contact GameHub</h2>
+  <p>If you’d like to get in touch with our team,<br> we’d be happy to hear from you.</p>
+  <a href="mailto:gamehub@gmail.com" class="email-link">gamehub@gmail.com</a>
+</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'booksite/index.html' %}
+
+{% block content %}
+    {% for date in dates %}
+      {{date}}<br>
+      <a href="{% url 'date' date %}"><button>book</button></a>
+    {% endfor %}
+{% endblock %}

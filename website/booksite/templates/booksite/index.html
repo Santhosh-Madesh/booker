@@ -1,34 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GameHub – Play, Compete, Conquer</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #1c1a1a; /* Dark Onyx */
+      color: #fdf5e6; /* Cream Ivory */
+    }
+
+    nav {
+      background-color: #330000; /* Deep Maroon */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      flex-wrap: wrap;
+    }
+
+    nav .logo {
+      color: #ffd700; /* Gold Accent */
+      font-weight: bold;
+      font-size: 24px;
+      text-transform: uppercase;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    nav a, nav input[type="submit"] {
+      background: #a40e26; /* Crimson Red */
+      color: #fdf5e6;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    nav a:hover, nav input[type="submit"]:hover {
+      background-color: #ffcc00; /* Gold Hover */
+      color: #1c1a1a;
+    }
+
+    .hero {
+      background: linear-gradient(to right, #330000, #2c1e1e); /* Deep shades */
+      padding: 80px 40px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: #ffd700;
+    }
+
+    .hero p {
+      font-size: 18px;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      color: #fdf5e6;
+    }
+
+    .hero .cta-btn {
+      background: #a40e26;
+      color: #fdf5e6;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 16px;
+      text-decoration: none;
+    }
+
+    .hero .cta-btn:hover {
+      background-color: #ffcc00;
+      color: #1c1a1a;
+    }
+
+    .features, .community {
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .features h2, .community h2 {
+      font-size: 32px;
+      color: #ffd700;
+      margin-bottom: 20px;
+    }
+
+    .features .feature-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .feature {
+      background: #2c1e1e; /* Card Background */
+      padding: 30px;
+      width: 250px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      color: #fdf5e6;
+    }
+
+    .feature h4 {
+      color: #ffd700;
+      margin-top: 15px;
+    }
+
+    .games-preview {
+      background: #1c1a1a;
+      padding: 60px 40px;
+    }
+
+    .games-preview h2 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 40px;
+      color: #ffd700;
+    }
+
+    .game-card {
+      display: inline-block;
+      background: #2c1e1e;
+      width: 250px;
+      margin: 20px;
+      border-radius: 14px;
+      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+      overflow: hidden;
+    }
+
+    .game-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .game-card .info {
+      padding: 16px;
+      text-align: center;
+      color: #fdf5e6;
+    }
+
+    .game-card .info h4 {
+      color: #ffd700;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .game-card .info span {
+      background: #a40e26;
+      color: #fdf5e6;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .footer {
+      background: #330000;
+      color: #ffd700;
+      padding: 30px 40px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .feature-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav .nav-links {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        gap: 20px;
+      }
+
+      .game-card {
+        width: 90%;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    {% if messages %}
-      {% for message in messages %}
-        {{message}}<br>
-      {% endfor %}
-    {% endif %}
+<!--Messages block-->
+{% block msg %}
+ {% for message in messages %}
+  {{message}}<br>
+ {% endfor%}
+{% endblock %}
+  <!-- Navbar -->
+  {% block nav %}
+  <nav>
+    <div class="logo">GameHub</div>
+    <form method="post" action="{% url 'logout' %}" class="nav-links">
+      {% csrf_token %}
+      <a href="{% url 'home' %}">Home</a>
+      <a href="{% url 'selectDate' %}">Book Slot</a>
+      <a href="{% url 'contact' %}">Contact</a>
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <input type="submit" value="Logout">
+    </form>
+  </nav>
+  {% endblock %}
 
-    {% block nav %}
-      <nav>
-          <form action="{% url 'logout' %}" method="post">
-              {% csrf_token %}
-              <a href="{% url 'home' %}">Home</a>
-              <a href="{% url 'create' %}">Book a Slot</a>
-              <a href="">Contact</a>
-              <a href="{% url 'dashboard' %}">Dashboard</a>
-              <input type="submit" value="Logout">
-          </form>
-      </nav>
-    {% endblock nav %}
+  {% block content %}
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Level Up Your Gaming Experience</h1>
+    <p>Join GameHub – your central zone to book gaming sessions, compete, and discover trending games.</p>
+    <a href="{% url 'create' %}" class="cta-btn">Book a Slot Now</a>
+  </section>
 
-    {% block content %}
-        <p>Hello! Welcome to the Game hub! You can book a slot through the "Book A Slot" Link</p>
-        <p>This is gonna be a page that explains about the website or basically the homepage of the website</p>
-    {% endblock content %}
+  <!-- Features -->
+  <section class="features">
+    <h2>Why GameHub?</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <img src="joy.png" width="60" alt="Play Icon">
+        <h4>Instant Booking</h4>
+        <p>Reserve your game slots in seconds with our smooth interface.</p>
+      </div>
+      <div class="feature">
+        <img src="boards.jpg" width="60" alt="Rank Icon">
+        <h4>Track Progress</h4>
+        <p>View your stats, ranks, and most played genres with detailed insights.</p>
+      </div>
+      <div class="feature">
+        <img src="news1.png" width="60" alt="News Icon">
+        <h4>Gaming News</h4>
+        <p>Stay updated with tournaments, patch notes, and global gaming trends.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Game Cards -->
+  <section class="games-preview">
+    <h2>Popular Games</h2>
+    <div class="game-card">
+      <img src="car-game.jpg" alt="Drift Max Pro">
+      <div class="info">
+        <h4>Drift Max Pro</h4>
+        <span>Racing</span>
+      </div>
+    </div>
+    <div class="game-card">
+      <img src="bgmi.jpg" alt="BGMI">
+      <div class="info">
+        <h4>BGMI</h4>
+        <span>Battle Royale</span>
+      </div>
+    </div>
+    <div class="game-card">
+      <img src="fps.jpg" alt="Sniper Elite">
+      <div class="info">
+        <h4>Sniper Elite</h4>
+        <span>FPS</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community -->
+  <section class="community">
+    <h2>Join Thousands of Gamers</h2>
+    <p>More than 10,000 players have already leveled up with GameHub. Create your profile and unlock the experience.</p>
+  </section>
+  {% endblock %}
+
+  <!-- Footer -->
+  {% block footer %}
+  <footer class="footer">
+    &copy; 2025 GameHub. Designed for gamers, by gamers.
+  </footer>
+  {% endblock %}
+
 </body>
 </html>
