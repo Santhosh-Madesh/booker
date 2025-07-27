@@ -1,0 +1,80 @@
+{% extends 'booksite/index.html' %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #1c1a1a; /* Background */
+    color: #fdf5e6; /* Text */
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .delete-wrapper {
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 35px;
+    background-color: #2c1e1e; /* Card background */
+    border-radius: 20px;
+    /* box-shadow: 0 8px 18px rgba(255, 215, 0, 0.08); Gold glow */
+    text-align: center;
+    animation: fadeInScale 0.6s ease-in-out;
+  }
+
+  @keyframes fadeInScale {
+    0% {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .delete-wrapper h2 {
+    color: #ffd700; /* Gold */
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .delete-wrapper h2 i {
+    font-size: 26px;
+    color: #ffcc00;
+  }
+
+  .delete-wrapper input[type="submit"] {
+    background-color: #a40e26; /* Crimson Red */
+    color: #fdf5e6;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .delete-wrapper input[type="submit"]:hover {
+    background-color: #ffcc00; /* Gold */
+    color: #1c1a1a;
+    transform: scale(1.05);
+  }
+</style>
+
+<!-- Font Awesome (for icon) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<div class="delete-wrapper">
+  <h2><i class="fas fa-exclamation-triangle"></i> Confirm Delete</h2>
+  <form method="post">
+    {% csrf_token %}
+    <input type="submit" value="Confirm Delete">
+  </form>
+</div>
+{% endblock content %}

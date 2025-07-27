@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-=st3-&*28a*fr$7^8npkz$!_#+&hr8rpp+$%=_&tiuh9$+$grj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://booker-3-lr1z.onrender.com','127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -111,13 +111,23 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Media files
+from os import path
+
+MEDIA_ROOT = path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+STATIC_ROOT = path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+from django.urls import reverse_lazy
+
+LOGIN_URL = reverse_lazy('login')

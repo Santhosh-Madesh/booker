@@ -1,11 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GameHub – Play, Compete, Conquer</title>
+  <style>
+    :root {
+      --bg: #1c1a1a;
+      --text: #fdf5e6;
+      --card-bg: #2c1e1e;
+      --accent: #ffd700;
+      --primary: #a40e26;
+      --nav: #330000;
+      --hover: #ffcc00;
+    }
+
+    body.light {
+      --bg: #fdfcfb;
+      --text: #1c1a1a;
+      --card-bg: #ffffff;
+      --accent: #330000;
+      --primary: #ffd700;
+      --nav: #f1e5d6;
+      --hover: #a40e26;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+
+    nav {
+      background-color: var(--nav);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      flex-wrap: wrap;
+    }
+
+    nav .logo {
+      color: var(--accent);
+      font-weight: bold;
+      font-size: 24px;
+      text-transform: uppercase;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    nav a, nav input[type="submit"], .toggle-theme {
+      background: var(--primary);
+      color: var(--text);
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    nav a:hover, nav input[type="submit"]:hover, .toggle-theme:hover {
+      background-color: var(--hover);
+      color: var(--bg);
+    }
+
+    .toggle-theme {
+      font-size: 16px;
+    }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .toast {
+      background-color: var(--card-bg);
+      color: var(--text);
+      border-left: 6px solid var(--accent);
+      padding: 12px 18px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-width: 250px;
+      animation: slideIn 0.4s ease;
+    }
+
+    .toast .close {
+      margin-left: 20px;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .hero {
+      background: linear-gradient(to right, #330000, var(--card-bg));
+      padding: 80px 40px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .hero p {
+      font-size: 18px;
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
+
+    .hero .cta-btn {
+      background: var(--primary);
+      color: var(--text);
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 16px;
+      text-decoration: none;
+    }
+
+    .hero .cta-btn:hover {
+      background-color: var(--hover);
+      color: var(--bg);
+    }
+
+    .features, .community {
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .features h2, .community h2 {
+      font-size: 32px;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .feature-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .feature {
+      background: var(--card-bg);
+      padding: 30px;
+      width: 250px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .feature h4 {
+      color: var(--accent);
+      margin-top: 15px;
+    }
+
+    .games-preview {
+      background: var(--bg);
+      padding: 60px 40px;
+    }
+
+    .games-preview h2 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 40px;
+      color: var(--accent);
+    }
+
+    .game-card {
+      display: inline-block;
+      background: var(--card-bg);
+      width: 250px;
+      margin: 20px;
+      border-radius: 14px;
+      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+      overflow: hidden;
+    }
+
+    .game-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .game-card .info {
+      padding: 16px;
+      text-align: center;
+    }
+
+    .game-card .info h4 {
+      color: var(--accent);
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .game-card .info span {
+      background: var(--primary);
+      color: var(--text);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .footer {
+      background: var(--nav);
+      color: var(--accent);
+      padding: 30px 40px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .feature-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav .nav-links {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .game-card {
+        width: 90%;
+      }
+    }
+  </style>
 </head>
-<body>
-    
+<body class="dark">
+
+<!-- ✅ Toast Messages -->
+{% block msg %}
+  {% if messages %}
+    <div class="toast-container" id="toastContainer">
+      {% for message in messages %}
+        <div class="toast">
+          {{ message }}
+          <span class="close" onclick="this.parentElement.style.display='none';">&times;</span>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}
+
+<!-- ✅ Navbar -->
+{% block nav %}
+<nav>
+  <div class="logo">GameHub</div>
+  <form method="post" action="{% url 'logout' %}" class="nav-links">
+    {% csrf_token %}
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'selectDate' %}">Book Slot</a>
+    <a href="{% url 'contact' %}">Contact</a>
+    <a href="{% url 'dashboard' %}">Dashboard</a>
+    <input type="submit" value="Logout">
+    <button type="button" class="toggle-theme" onclick="toggleTheme()">🌙</button>
+  </form>
+</nav>
+{% endblock %}
+
+<!-- ✅ Hero + Content -->
+{% block content %}
+<section class="hero">
+  <h1>Level Up Your Gaming Experience</h1>
+  <p>Join GameHub – your central zone to book gaming sessions, compete, and discover trending games.</p>
+  <a href="{% url 'selectDate' %}" class="cta-btn">Book a Slot Now</a>
+</section>
+
+<section class="features">
+  <h2>Why GameHub?</h2>
+  <div class="feature-grid">
+    <div class="feature">
+      <img src="media/images/joy.jpg" width="60" alt="Play Icon">
+      <h4>Instant Booking</h4>
+      <p>Reserve your game slots in seconds with our smooth interface.</p>
+    </div>
+    <div class="feature">
+      <img src="media/images/leaderboard.jpg" width="60" alt="Rank Icon">
+      <h4>Track Progress</h4>
+      <p>View your stats, ranks, and most played genres with detailed insights.</p>
+    </div>
+    <div class="feature">
+      <img src="media/images/gaming_news.jpg" width="60" alt="News Icon">
+      <h4>Gaming News</h4>
+      <p>Stay updated with tournaments, patch notes, and global gaming trends.</p>
+    </div>
+  </div>
+</section>
+
+<section class="games-preview">
+  <h2>Popular Games</h2>
+  <div class="game-card">
+    <img src="media/images/F1.jpg" alt="Formula 1">
+    <div class="info">
+      <h4>Formula 1 25</h4>
+      <span>Racing</span>
+    </div>
+  </div>
+  <div class="game-card">
+    <img src="media/images/cod.jpg" alt="Call Of Duty: Black Ops 6">
+    <div class="info">
+      <h4>Call Of Duty: Black Ops 6</h4>
+      <span>Warzone</span>
+    </div>
+  </div>
+  <div class="game-card">
+    <img src="media/images/GTAV.jpg" alt="GTA V">
+    <div class="info">
+      <h4>GTA V</h4>
+      <span>Open World</span>
+    </div>
+  </div>
+</section>
+
+<section class="community">
+  <h2>Join Thousands of Gamers</h2>
+  <p>More than 10,000 players have already leveled up with GameHub. Create your profile and unlock the experience.</p>
+</section>
+{% endblock %}
+
+<!-- ✅ Footer -->
+{% block footer %}
+<footer class="footer">
+  &copy; 2025 GameHub. Designed for gamers, by gamers.
+</footer>
+{% endblock %}
+
+<!-- ✅ Dark/Light Theme Toggle Script -->
+<script>
+  function toggleTheme() {
+    const body = document.body;
+    body.classList.toggle('light');
+  }
+</script>
+
 </body>
 </html>

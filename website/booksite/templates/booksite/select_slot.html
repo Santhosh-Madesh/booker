@@ -1,0 +1,93 @@
+{% extends 'booksite/index.html' %}
+
+{% block content %}
+<style>
+  .slot-wrapper {
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: #2c1e1e; /* Card Background */
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.15); /* Gold glow */
+    font-family: 'Segoe UI', sans-serif;
+    color: #fdf5e6; /* Mist White */
+  }
+
+  .slot-wrapper h3 {
+    font-size: 26px;
+    margin-bottom: 25px;
+    color: #ffd700; /* Gold */
+    border-bottom: 2px solid #a40e26;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+
+  .slot-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1c1a1a;
+    border: 1px solid #a40e26;
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    transition: transform 0.2s ease;
+  }
+
+  .slot-card:hover {
+    transform: scale(1.02);
+  }
+
+  .slot-time {
+    font-size: 18px;
+    font-weight: 500;
+    color: #fdf5e6;
+  }
+
+  .slot-card button {
+    background-color: #a40e26;
+    color: #fdf5e6;
+    font-size: 14px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .slot-card button:hover {
+    background-color: #ffcc00;
+    color: #330000;
+  }
+
+  .no-slot-message {
+    text-align: center;
+    font-size: 16px;
+    padding: 20px;
+    background-color: #1c1a1a;
+    border: 1px dashed #a40e26;
+    border-radius: 12px;
+    color: #fdf5e6;
+    margin-top: 40px;
+  }
+</style>
+
+<div class="slot-wrapper">
+  {% if slots %}
+    <h3>Available Slots</h3>
+    {% for slot in slots %}
+      <div class="slot-card">
+        <div class="slot-time">{{ slot }} PM Slot</div>
+        <a href="{% url 'book' date slot %}">
+          <button>Book Slot</button>
+        </a>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="no-slot-message">
+      <p>No slots available. Please try selecting a different date.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

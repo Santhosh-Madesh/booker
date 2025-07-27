@@ -1,0 +1,74 @@
+{% extends 'booksite/index.html' %}
+
+{% block content %}
+  <style>
+    .date-container {
+      max-width: 500px;
+      margin: 60px auto;
+      padding: 30px;
+      background-color: #2c1e1e; /* Card Background */
+      border-radius: 15px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+      color: #fdf5e6; /* Mist White */
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+    }
+
+    .date-container h2 {
+      color: #ffd700; /* Gold Accent */
+      margin-bottom: 25px;
+    }
+
+    .date-item {
+      background-color: #330000; /* Deep Maroon */
+      padding: 14px 20px;
+      margin: 15px 0;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 3px 10px rgba(255, 215, 0, 0.08);
+    }
+
+    .date-text {
+      font-size: 16px;
+      font-weight: 500;
+      color: #fdf5e6;
+    }
+
+    .date-button {
+      background-color: #a40e26; /* Crimson Red */
+      border: none;
+      color: #fdf5e6;
+      padding: 10px 18px;
+      font-size: 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .date-button:hover {
+      background-color: #ffcc00; /* Hover Gold */
+      color: #330000;
+    }
+
+    @media (max-width: 600px) {
+      .date-item {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+
+  <div class="date-container">
+    <h2>Select Your Preferred Date</h2>
+    {% for date in dates %}
+      <div class="date-item">
+        <div class="date-text">{{ date }}</div>
+        <a href="{% url 'date' date %}">
+          <button class="date-button">Book</button>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

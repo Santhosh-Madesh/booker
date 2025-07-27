@@ -1,0 +1,95 @@
+{% extends 'booksite/index.html' %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #1c1a1a;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fdf5e6;
+  }
+
+  .dashboard-form-container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 35px;
+    background-color: #2c1e1e; /* Card background */
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(255, 215, 0, 0.12); /* Gold soft glow */
+  }
+
+  .dashboard-form-container h2 {
+    text-align: center;
+    font-size: 28px;
+    color: #ffd700; /* Gold */
+    margin-bottom: 30px;
+    border-bottom: 2px solid #a40e26; /* Crimson underline */
+    padding-bottom: 10px;
+  }
+
+  .dashboard-form-container label {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #fdf5e6;
+  }
+
+  .dashboard-form-container input[type="text"],
+  .dashboard-form-container input[type="email"],
+  .dashboard-form-container input[type="file"],
+  .dashboard-form-container select,
+  .dashboard-form-container textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #a40e26; /* Crimson */
+    border-radius: 10px;
+    background-color: #3a2b2b; /* Deep maroon tone */
+    color: #fdf5e6;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.3s, background-color 0.3s;
+  }
+
+  .dashboard-form-container input::placeholder,
+  .dashboard-form-container textarea::placeholder {
+    color: #c9bfbf;
+  }
+
+  .dashboard-form-container input:focus,
+  .dashboard-form-container textarea:focus,
+  .dashboard-form-container select:focus {
+    border-color: #ffd700;
+    background-color: #4a3434;
+    outline: none;
+  }
+
+  .dashboard-form-container input[type="submit"] {
+    margin-top: 25px;
+    background-color: #a40e26; /* Crimson */
+    color: #fdf5e6;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 12px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0 5px 12px rgba(255, 204, 0, 0.08);
+  }
+
+  .dashboard-form-container input[type="submit"]:hover {
+    background-color: #ffd700; /* Gold hover */
+    color: #1c1a1a;
+  }
+</style>
+
+<div class="dashboard-form-container">
+  <h2>Update Dashboard</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update Dashboard">
+  </form>
+</div>
+{% endblock content %}
