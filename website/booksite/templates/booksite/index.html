@@ -15,16 +15,6 @@
       --hover: #ffcc00;
     }
 
-    body.light {
-      --bg: #fdfcfb;
-      --text: #1c1a1a;
-      --card-bg: #ffffff;
-      --accent: #330000;
-      --primary: #ffd700;
-      --nav: #f1e5d6;
-      --hover: #a40e26;
-    }
-
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
@@ -38,9 +28,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 40px;
+      padding: 15px 20px;
       flex-wrap: wrap;
-      position: relative;
+      position: sticky;
+      top: 0;
       z-index: 999;
     }
 
@@ -78,10 +69,6 @@
       color: var(--bg);
     }
 
-    .toggle-theme {
-      font-size: 16px;
-    }
-
     .hamburger {
       display: none;
       flex-direction: column;
@@ -100,14 +87,12 @@
       display: none;
       flex-direction: column;
       gap: 10px;
-      margin-top: 10px;
-      background: var(--nav);
-      padding: 10px 20px;
-      position: absolute;
-      top: 60px;
-      left: 0;
+      margin-top: 15px;
       width: 100%;
-      z-index: 999;
+    }
+
+    .nav-mobile.show {
+      display: flex;
     }
 
     .nav-mobile a,
@@ -115,15 +100,15 @@
     .nav-mobile button {
       width: 100%;
       text-align: left;
-    }
-
-    .nav-mobile.show {
-      display: flex;
+      padding: 10px;
+      margin: 5px 0;
+      font-size: 16px;
+      box-sizing: border-box;
     }
 
     .hero {
       background: linear-gradient(to right, #330000, var(--card-bg));
-      padding: 80px 40px;
+      padding: 80px 20px;
       text-align: center;
     }
 
@@ -134,12 +119,12 @@
     }
 
     .hero p {
-      font-size: 16px;
+      font-size: 18px;
       max-width: 700px;
       margin: 0 auto 30px;
     }
 
-    .cta-btn {
+    .hero .cta-btn {
       background: var(--primary);
       color: var(--text);
       font-weight: 600;
@@ -149,13 +134,13 @@
       text-decoration: none;
     }
 
-    .cta-btn:hover {
+    .hero .cta-btn:hover {
       background-color: var(--hover);
       color: var(--bg);
     }
 
     .features, .community {
-      padding: 40px 20px;
+      padding: 60px 20px;
       text-align: center;
     }
 
@@ -170,12 +155,13 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
+      margin-top: 30px;
     }
 
     .feature {
       background: var(--card-bg);
-      padding: 20px;
-      width: 240px;
+      padding: 30px;
+      width: 260px;
       border-radius: 16px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
@@ -187,7 +173,7 @@
 
     .games-preview {
       background: var(--bg);
-      padding: 40px 20px;
+      padding: 60px 20px;
     }
 
     .games-preview h2 {
@@ -198,12 +184,11 @@
     }
 
     .game-card {
-      display: inline-block;
       background: var(--card-bg);
-      width: 250px;
-      margin: 15px;
+      width: 260px;
+      margin: 20px auto;
       border-radius: 14px;
-      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
       overflow: hidden;
     }
 
@@ -236,7 +221,7 @@
     .footer {
       background: var(--nav);
       color: var(--accent);
-      padding: 20px;
+      padding: 30px 20px;
       text-align: center;
       font-size: 14px;
     }
@@ -250,27 +235,32 @@
         display: flex;
       }
 
-      nav {
-        flex-direction: row;
-        justify-content: space-between;
+      .game-card {
+        width: 100%;
+        max-width: 300px;
       }
 
-      .logo {
-        flex-grow: 1;
+      .feature {
+        width: 100%;
+        max-width: 300px;
       }
     }
   </style>
 </head>
 <body>
 
-<!-- ✅ Navigation -->
+<!-- ✅ Navbar -->
 <nav>
   <div class="logo">GameHub</div>
+
+  <!-- Hamburger (Mobile) -->
   <div class="hamburger" onclick="toggleMobileNav()">
     <span></span>
     <span></span>
     <span></span>
   </div>
+
+  <!-- Desktop Links -->
   <form method="post" action="#" class="nav-links">
     <a href="#">Home</a>
     <a href="#">Book Slot</a>
@@ -279,6 +269,8 @@
     <input type="submit" value="Logout">
     <button type="button" class="toggle-theme" onclick="toggleTheme()">🌙</button>
   </form>
+
+  <!-- Mobile Nav Links -->
   <form method="post" action="#" class="nav-mobile" id="mobileNav">
     <a href="#">Home</a>
     <a href="#">Book Slot</a>
