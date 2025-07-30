@@ -40,22 +40,26 @@
       align-items: center;
       padding: 15px 40px;
       flex-wrap: wrap;
+      position: relative;
     }
 
-    nav .logo {
+    .logo {
       color: var(--accent);
       font-weight: bold;
       font-size: 24px;
       text-transform: uppercase;
+      flex-shrink: 0;
     }
 
-    nav .nav-links {
+    .nav-links {
       display: flex;
       gap: 15px;
       align-items: center;
     }
 
-    nav a, nav input[type="submit"], .toggle-theme {
+    nav a,
+    nav input[type="submit"],
+    .toggle-theme {
       background: var(--primary);
       color: var(--text);
       padding: 10px 18px;
@@ -65,9 +69,12 @@
       font-weight: 600;
       transition: 0.3s;
       cursor: pointer;
+      white-space: nowrap;
     }
 
-    nav a:hover, nav input[type="submit"]:hover, .toggle-theme:hover {
+    nav a:hover,
+    nav input[type="submit"]:hover,
+    .toggle-theme:hover {
       background-color: var(--hover);
       color: var(--bg);
     }
@@ -76,40 +83,40 @@
       font-size: 16px;
     }
 
-    /* Toast */
-    .toast-container {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-
-    .toast {
-      background-color: var(--card-bg);
-      color: var(--text);
-      border-left: 6px solid var(--accent);
-      padding: 12px 18px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      min-width: 250px;
-      animation: slideIn 0.4s ease;
-    }
-
-    .toast .close {
-      margin-left: 20px;
+    .hamburger {
+      display: none;
+      flex-direction: column;
       cursor: pointer;
-      font-size: 18px;
-      color: var(--accent);
-      font-weight: bold;
     }
 
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(30px); }
-      to { opacity: 1; transform: translateX(0); }
+    .hamburger span {
+      height: 3px;
+      width: 25px;
+      background: var(--accent);
+      margin: 4px 0;
+      border-radius: 5px;
+    }
+
+    .nav-mobile {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    .nav-mobile a,
+    .nav-mobile input,
+    .nav-mobile button {
+      width: 100%;
+      text-align: left;
+      padding: 10px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .nav-mobile.show {
+      display: flex;
     }
 
     .hero {
@@ -195,7 +202,7 @@
       width: 250px;
       margin: 20px;
       border-radius: 14px;
-      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
       overflow: hidden;
     }
 
@@ -233,44 +240,53 @@
     }
 
     @media (max-width: 768px) {
-      .feature-grid {
-        flex-direction: column;
-        align-items: center;
+      .nav-links {
+        display: none;
       }
 
-      nav .nav-links {
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-mobile a,
+      .nav-mobile input,
+      .nav-mobile button {
+        width: 100%;
+      }
+
+      nav {
         flex-direction: column;
         align-items: flex-start;
-      }
-
-      .game-card {
-        width: 90%;
       }
     }
   </style>
 </head>
-<body class="dark">
-
-<!-- ✅ Toast Messages -->
-{% block msg %}
-  {% if messages %}
-    <div class="toast-container" id="toastContainer">
-      {% for message in messages %}
-        <div class="toast">
-          {{ message }}
-          <span class="close" onclick="this.parentElement.style.display='none';">&times;</span>
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
-{% endblock %}
+<body>
 
 <!-- ✅ Navbar -->
-{% block nav %}
+  {% block nav %}
 <nav>
   <div class="logo">GameHub</div>
-  <form method="post" action="{% url 'logout' %}" class="nav-links">
-    {% csrf_token %}
+
+  <!-- Hamburger (Mobile) -->
+  <div class="hamburger" onclick="toggleMobileNav()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Desktop Nav -->
+  <form method="post" action="#" class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'selectDate' %}">Book Slot</a>
+    <a href="{% url 'contact' %}">Contact</a>
+    <a href="{% url 'dashboard' %}">Dashboard</a>
+    <input type="submit" value="Logout">
+    <button type="button" class="toggle-theme" onclick="toggleTheme()">🌙</button>
+  </form>
+
+  <!-- Mobile Nav -->
+  <form method="post" action="#" class="nav-mobile" id="mobileNav">
     <a href="{% url 'home' %}">Home</a>
     <a href="{% url 'selectDate' %}">Book Slot</a>
     <a href="{% url 'contact' %}">Contact</a>
@@ -281,14 +297,15 @@
 </nav>
 {% endblock %}
 
-<!-- ✅ Hero + Content -->
-{% block content %}
+  {% block content %}
+<!-- ✅ Hero Section -->
 <section class="hero">
   <h1>Level Up Your Gaming Experience</h1>
   <p>Join GameHub – your central zone to book gaming sessions, compete, and discover trending games.</p>
   <a href="{% url 'selectDate' %}" class="cta-btn">Book a Slot Now</a>
 </section>
 
+<!-- ✅ Features -->
 <section class="features">
   <h2>Why GameHub?</h2>
   <div class="feature-grid">
@@ -310,6 +327,7 @@
   </div>
 </section>
 
+<!-- ✅ Games Preview -->
 <section class="games-preview">
   <h2>Popular Games</h2>
   <div class="game-card">
@@ -335,26 +353,29 @@
   </div>
 </section>
 
+<!-- ✅ Community -->
 <section class="community">
   <h2>Join Thousands of Gamers</h2>
   <p>More than 10,000 players have already leveled up with GameHub. Create your profile and unlock the experience.</p>
 </section>
-{% endblock %}
+  {% endblock %}
 
 <!-- ✅ Footer -->
-{% block footer %}
+  {% block footer %}
 <footer class="footer">
   &copy; 2025 GameHub. Designed for gamers, by gamers.
 </footer>
-{% endblock %}
+  {% endblock %}
 
-<!-- ✅ Dark/Light Theme Toggle Script -->
+<!-- ✅ Script -->
 <script>
   function toggleTheme() {
-    const body = document.body;
-    body.classList.toggle('light');
+    document.body.classList.toggle("light");
+  }
+
+  function toggleMobileNav() {
+    document.getElementById("mobileNav").classList.toggle("show");
   }
 </script>
-
 </body>
 </html>
