@@ -306,11 +306,12 @@
 </section>
 
 <!-- ✅ Features -->
+ {% load static %}
 <section class="features">
   <h2>Why GameHub?</h2>
   <div class="feature-grid">
     <div class="feature">
-      <img src="media/images/joy.jpg" width="60" alt="Play Icon">
+      <img src="{% static 'images/joy.jpg' %}" width="60" alt="Play Icon">
       <h4>Instant Booking</h4>
       <p>Reserve your game slots in seconds with our smooth interface.</p>
     </div>
