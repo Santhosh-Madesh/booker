@@ -296,7 +296,11 @@
   </form>
 </nav>
 {% endblock %}
-
+{% block msg %}
+  {% for message in messages %}
+    {{message}}
+  {% endfor %}
+{% endblock %}
   {% block content %}
 <!-- ✅ Hero Section -->
 <section class="hero">
