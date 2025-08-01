@@ -293,7 +293,8 @@
     <div class="logo-fixed">GameHub</div>
 
     <div class="user-card">
-      <img src="{{ profile.pfp.url }}" alt="User Avatar" class="avatar">
+      {% load static %}
+      <img src="{% static 'profile_pics/Screenshot_2025-06-16_200652.png' %}" alt="User Avatar" class="avatar">
       <div class="profile-box"><h4>Username</h4><p>{{ user.username }}</p></div>
       <div class="profile-box"><h4>Email</h4><p>{{ user.email }}</p></div>
 
