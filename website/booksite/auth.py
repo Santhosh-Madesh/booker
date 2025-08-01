@@ -23,11 +23,14 @@ class SignUpView(CreateView):
 class LoginClassView(LoginView):
     template_name = "booksite/login.html"
     redirect_authenticated_user = True
-    next_page = reverse_lazy('home')
     
-    def post(self, request, *args, **kwargs):
+    def get_success_url(self):
         messages.success(self.request, "Account logged in successfully")
-        return super().post(self.request)
+        return reverse_lazy('homme')
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Invalid credentials!")
+        return super().form_invalid(form)
 
 class LogoutClassView(LogoutView):
     next_page = reverse_lazy('login')
