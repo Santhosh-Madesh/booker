@@ -239,43 +239,62 @@
       font-size: 14px;
     }
 
+    /* 🔔 Message Styles */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+    }
+
+    .toast-message {
+      padding: 12px 20px;
+      margin-bottom: 12px;
+      border-left: 6px solid var(--accent);
+      background: var(--card-bg);
+      color: var(--text);
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      min-width: 250px;
+    }
+
+    .toast-message.success { border-left-color: #4caf50; background-color: #2e4e2e; }
+    .toast-message.error   { border-left-color: #f44336; background-color: #3a2222; }
+    .toast-message.warning { border-left-color: #ff9800; background-color: #4e3d22; }
+    .toast-message.info    { border-left-color: #2196f3; background-color: #22394e; }
+
+    .toast-message .close-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 18px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
     @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-
-      .hamburger {
-        display: flex;
-      }
-
-      .nav-mobile a,
-      .nav-mobile input,
-      .nav-mobile button {
-        width: 100%;
-      }
-
-      nav {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      nav { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
 
 <!-- ✅ Navbar -->
-  {% block nav %}
+{% block nav %}
 <nav>
   <div class="logo">GameHub</div>
 
-  <!-- Hamburger (Mobile) -->
   <div class="hamburger" onclick="toggleMobileNav()">
     <span></span>
     <span></span>
     <span></span>
   </div>
 
-  <!-- Desktop Nav -->
   <form method="post" action="{% url 'logout' %}" class="nav-links">
     {% csrf_token %}
     <a href="{% url 'home' %}">Home</a>
@@ -286,7 +305,6 @@
     <button type="button" class="toggle-theme" onclick="toggleTheme()">🌙</button>
   </form>
 
-  <!-- Mobile Nav -->
   <form method="post" action="{% url 'logout' %}" class="nav-mobile" id="mobileNav">
     {% csrf_token %}
     <a href="{% url 'home' %}">Home</a>
@@ -298,20 +316,34 @@
   </form>
 </nav>
 {% endblock %}
+
+<!-- ✅ Messages -->
 {% block msg %}
-  {% for message in messages %}
-    {{message}}
-  {% endfor %}
+  {% if messages %}
+    <div class="toast-container">
+      {% for message in messages %}
+        <div class="toast-message {{ message.tags }}">
+          <span>{{ message }}</span>
+          <button class="close-btn" onclick="this.parentElement.remove()">×</button>
+        </div>
+      {% endfor %}
+    </div>
+    <script>
+      setTimeout(() => {
+        document.querySelectorAll('.toast-message').forEach(msg => msg.remove());
+      }, 5000);
+    </script>
+  {% endif %}
 {% endblock %}
-  {% block content %}
-<!-- ✅ Hero Section -->
+
+<!-- ✅ Main Content -->
+{% block content %}
 <section class="hero">
   <h1>Level Up Your Gaming Experience</h1>
   <p>Join GameHub – your central zone to book gaming sessions, compete, and discover trending games.</p>
   <a href="{% url 'selectDate' %}" class="cta-btn">Book a Slot Now</a>
 </section>
 
-<!-- ✅ Features -->
 {% load static %}
 <section class="features">
   <h2>Why GameHub?</h2>
@@ -334,7 +366,6 @@
   </div>
 </section>
 
-<!-- ✅ Games Preview -->
 <section class="games-preview">
   <h2>Popular Games</h2>
   <div class="game-card">
@@ -360,21 +391,20 @@
   </div>
 </section>
 
-<!-- ✅ Community -->
 <section class="community">
   <h2>Join Thousands of Gamers</h2>
   <p>More than 10,000 players have already leveled up with GameHub. Create your profile and unlock the experience.</p>
 </section>
-  {% endblock %}
+{% endblock %}
 
 <!-- ✅ Footer -->
-  {% block footer %}
+{% block footer %}
 <footer class="footer">
   &copy; 2025 GameHub. Designed for gamers, by gamers.
 </footer>
-  {% endblock %}
+{% endblock %}
 
-<!-- ✅ Script -->
+<!-- ✅ Scripts -->
 <script>
   function toggleTheme() {
     document.body.classList.toggle("light");
