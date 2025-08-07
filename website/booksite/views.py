@@ -8,9 +8,25 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta, date
+from django.contrib.auth import login, authenticate, get_user_model
 
-@login_required
+
 def home(request):
+    User = get_user_model()
+    username = 'demo_user'
+    password = 'demo_pass_123'  # Choose a strong fixed password
+
+    # Create user if it doesn't exist
+    user, created = User.objects.get_or_create(username=username)
+    if created:
+        user.set_password(password)
+        user.save()
+
+    # Authenticate and login the user
+    user = authenticate(request, username=username, password=password)
+    if user:
+        login(request, user)
+
     return render(request, "booksite/index.html")
 
 class BookingCreate(LoginRequiredMixin ,CreateView):
